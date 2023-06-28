@@ -2,6 +2,8 @@
 #### A Kyverno policy is a collection of rules. Each rule consists of a match declaration, an optional exclude declaration, and one of a validate, mutate, generate, or verifyImages declaration. Each rule can contain only a single validate, mutate, generate, or verifyImages child declaration.
 #### Policies can be defined as cluster-wide resources (using the kind ClusterPolicy) or namespaced resources (using the kind Policy.) As expected, namespaced policies will only apply to resources within the namespace in which they are defined while cluster-wide policies are applied to matching resources across all namespaces. Otherwise, there is no difference between the two types.
 ![Kyverno policies and rules](images/Kyverno-Policy-Structure.png)
+#### Rules in a policy are applied in the order of definition. During admission control, mutation rules are applied before validation rules. This allows validation of changes made during mutation. Note that all mutation rules are applied first across all policies before any validation rules are applied.
+
 
 - [Validation](validation/README.md)
 #### Validation is the most common use case for policy and functions as a “yes” or “no” decision making process. Resources which are compliant with the policy are allowed to pass (“yes, this is allowed”) and those which are not compliant may not be allowed to pass (“no, this is not allowed”). An additional effect of these validate policies is to produce Policy Reports. A Policy Report is a custom Kubernetes resource, produced and managed by Kyverno, which shows the results of policy decisions upon allowed resources in a user-friendly way
